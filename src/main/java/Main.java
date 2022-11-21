@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Main {
 
@@ -9,8 +10,10 @@ public class Main {
         final int timeToCheckCarAvailability = 500;
         final int timeToGetCarFromSalon = 1000;
         final int timeToProduceNewCar = 900;
-        final int numberOfCarsToProduce = 10;
-        final int numberOfAttemptsToBuyCar = 8;
+        final int numberOfCarsToProduce = 12;
+        final int numberOfAttemptsToBuyCar = 4;
+
+        ReentrantLock lock = new ReentrantLock();
 
         // Thread to simulate first customer
         new Thread(() -> {
@@ -21,18 +24,20 @@ public class Main {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (cars) {
-                    if (!cars.isEmpty()) {
-                        cars.remove(0);
-                        System.out.println("Покупатель1 уехал на новеньком авто");
-                        try {
+                lock.lock();
+                try {
+                    while(true) {
+                        if (!cars.isEmpty()) {
+                            cars.remove(0);
+                            System.out.println("Покупатель1 уехал на новеньком авто");
                             Thread.sleep(timeToGetCarFromSalon);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            break;
                         }
-                    } else {
-                        System.out.println("Покупатель1 - Машин нет");
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    lock.unlock();
                 }
             }
         }).start();
@@ -46,18 +51,20 @@ public class Main {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (cars) {
-                    if (!cars.isEmpty()) {
-                        cars.remove(0);
-                        System.out.println("Покупатель2 уехал на новеньком авто");
-                        try {
+                lock.lock();
+                try {
+                    while(true) {
+                        if (!cars.isEmpty()) {
+                            cars.remove(0);
+                            System.out.println("Покупатель2 уехал на новеньком авто");
                             Thread.sleep(timeToGetCarFromSalon);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            break;
                         }
-                    } else {
-                        System.out.println("Покупатель2 - Машин нет");
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    lock.unlock();
                 }
             }
         }).start();
@@ -71,18 +78,20 @@ public class Main {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (cars) {
-                    if (!cars.isEmpty()) {
-                        cars.remove(0);
-                        System.out.println("Покупатель1 уехал на новеньком авто");
-                        try {
+                lock.lock();
+                try {
+                    while(true) {
+                        if (!cars.isEmpty()) {
+                            cars.remove(0);
+                            System.out.println("Покупатель3 уехал на новеньком авто");
                             Thread.sleep(timeToGetCarFromSalon);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            break;
                         }
-                    } else {
-                        System.out.println("Покупатель3 - Машин нет");
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    lock.unlock();
                 }
             }
         }).start();
