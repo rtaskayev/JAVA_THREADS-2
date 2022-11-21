@@ -10,11 +10,11 @@ public class Main {
         final int timeToGetCarFromSalon = 1000;
         final int timeToProduceNewCar = 900;
         final int numberOfCarsToProduce = 10;
+        final int numberOfAttemptsToBuyCar = 8;
 
         // Thread to simulate first customer
         new Thread(() -> {
-            Thread.currentThread().setName("Покупатель1");
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < numberOfAttemptsToBuyCar; i++) {
                 System.out.println("Покупатель1 зашел в салон");
                 try {
                     Thread.sleep(timeToCheckCarAvailability);
@@ -39,8 +39,7 @@ public class Main {
 
         // Thread to simulate second customer
         new Thread(() -> {
-            Thread.currentThread().setName("Покупатель2");
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < numberOfAttemptsToBuyCar; i++) {
                 System.out.println("Покупатель2 зашел в салон");
                 try {
                     Thread.sleep(timeToCheckCarAvailability);
@@ -65,8 +64,7 @@ public class Main {
 
         // Thread to simulate third customer
         new Thread(() -> {
-            Thread.currentThread().setName("Покупатель3");
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < numberOfAttemptsToBuyCar; i++) {
                 System.out.println("Покупатель3 зашел в салон");
                 try {
                     Thread.sleep(timeToCheckCarAvailability);
@@ -92,7 +90,6 @@ public class Main {
 
         // Thread to simulate cars production
         new Thread(() -> {
-            Thread.currentThread().setName("Производитель");
             for (int i = 0; i < numberOfCarsToProduce; i++) {
                 System.out.println("Производитель Toyota выпустил 1 авто");
                 cars.add(new Car(i));
